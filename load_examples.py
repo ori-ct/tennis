@@ -44,11 +44,11 @@ def load_data(data_path,negative_class_name,input_shape):
 	X = np.expand_dims(X,axis=-1)
 	return X,Y,F
 
-def load_data_test(data_path,negative_class_name,input_shape):
+def load_data_test(data_path,input_shape):
 	L = []
 	X = []
 	F = []
-	train_files = os.listdir(data_path + '/' + negative_class_name + '/')
+	train_files = os.listdir(data_path)# + '/' + negative_class_name + '/')
 	for i,fname in zip(range(len(train_files)),train_files):
 		im = imread(data_path+'/'+negative_class_name + '/'+fname)
 		im = resize(im,(input_shape[0],input_shape[1],3),mode='reflect')

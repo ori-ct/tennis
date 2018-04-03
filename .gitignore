@@ -6,4 +6,6 @@ env/
 
 test.txt
 
+__pycache__
+
 models/

@@ -4,10 +4,10 @@ import sys
 if len(sys.argv)==2:
   if sys.argv[1]=='-h':
     print('Usage:')
-    print('   ' + sys.argv[0] + ' <model_type> <path_to_data>')
-    print('     ' + '<model_type>:')
-    print('       weak:   train againts the whole scene to get a weak classifier')
-    print('       strong: train againts hard cases to get a strong classifier')
+    print('   ' + sys.argv[0] + ' <model> <path_to_data>')
+    print('     ' + '<model>:')
+    print('       scene: train againts the whole scene to get a weak classifier')
+    print('       hard:  train againts hard cases to get a strong classifier')
   else:
     print('Unexpected number of arguments')
     print('Help: ' + sys.argv[0] + ' -h')
@@ -44,22 +44,18 @@ from load_examples import load_data
 import tensorflow as tf
 
 ## build cnn model
-if model_type=='weak':
-  model,input_shape = weak_model()
-  model.summary()
-  print('Loading...')
-  X,Y,F = load_data(data_path,'pasadena',input_shape)
-  print(str(X.shape[0])+' images found')
-elif model_type=='strong':
+if model_type=='hard':
   model,input_shape = strong_model()
-  model.summary()  
-  print('Loading...')
-  X,Y,F = load_data(data_path,'hard',input_shape)
-  print(str(X.shape[0])+' images found')
+elif os.path.isdir(data_path + '/' + model_type):
+  model,input_shape = weak_model() 
 else:
-  print(model_type + ' is an unknown type of model')
+  print(data_path + '/' + model_type + ' is cannot be found')
   print('Help: ' + sys.argv[0] + ' -h')
   exit()
+model.summary()  
+print('Loading...')
+X,Y,F = load_data(data_path,model_type,input_shape)
+print(str(X.shape[0])+' images found')
 
 from sklearn.model_selection import train_test_split
 
@@ -83,12 +79,8 @@ class_weights[1]=( len(Y_train)-np.sum(Y_train) )/len(Y_train)
 print(class_weights)
 
 ## train model
-if model_type=='weak':
-  fweights = './weights_weak.hdf5'
-  fhistory = './history_weak.pckl'
-if model_type=='strong':
-  fweights = './weights_strong.hdf5'
-  fhistory = './history_strong.pckl'
+fweights = './weights_' + model_type + '.hdf5'
+fhistory = './history_' + model_type + '.pckl'
 
 with tf.device('/device:GPU:0'):
   model.compile(loss=binary_crossentropy,optimizer=Adam(lr=0.001),metrics=['accuracy'])
