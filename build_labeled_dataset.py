@@ -48,7 +48,6 @@ def download_image(location,zoom,imsize,scale,fname,APIkey):
 		out_file.write(data)
 
 
-
 if len(sys.argv)==1:
 	print('Unexpected number of parameters.')
 	print('Help: ' + sys.argv[0] + ' -h')
@@ -70,6 +69,10 @@ if len(sys.argv)>4:
 	print('Help: ' + sys.argv[0] + ' -h')
 	exit()
 if len(sys.argv)==4:
+	print('Are you sure you want to overwrite the places dataset with new data? [Y/n]')
+	if input()=='n':
+		exit()
+
 	APIkey_places=sys.argv[3]
 	radius = 50000
 	data = []
@@ -92,11 +95,11 @@ if len(sys.argv)==4:
 				data_search[ind]['keyword']=keyword
 			data.extend(data_search)
 			print(c['city']+', '+c['state'] + ': '+str(len(data_search))+' '+keyword+'s - Total: '+str(len(data))+' '+keyword+'s found.')
-	with open('data2.json','w') as outfile:
+	with open('data_new.json','w') as outfile:
 		json.dump(data, outfile)
 
 else:
-	with open('data2.json' ,'rb') as f:
+	with open('data_places.json' ,'rb') as f:
 		data = json.loads(f.read())
 
 print('Downloading dataset from Google Maps...')
@@ -104,9 +107,7 @@ print('Downloading dataset from Google Maps...')
 zoom =18
 imsize = (256,256)
 scale = 2
-if data_destination[-1]='/':
-	#do nothing
-else:
+if data_destination[-1]!='/':
 	data_destination = data_destination[:-1]
 
 for iteration,place in zip(range(len(data)),data):
