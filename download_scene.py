@@ -55,7 +55,12 @@ step_lat = 0.0009765625*0.9/2;
 step_lon = 0.0009765625*1.4/2;
 v1 = np.arange(min_lat,max_lat,step_lat)
 v2 = np.arange(min_lon,max_lon,step_lon)
-print('Downloading scene containing ' + str(len(v2)*len(v1)) + ' tiles...')
+print(str(len(v2)*len(v1)) + ' tiles staged for downloading.')
+print('Total of ' + str(len(v2)*len(v1)*0.2 ) + ' Mb will be downloaded. Continue? [Y/n]')
+if input()=='n':
+     exit()
+print('downloading...')
+
 for t1,lat in zip(range(len(v1)),v1):
     progress_bar(t1, len(v1), barLength=20) 
     for t2,lon in zip(range(len(v2)),v2):
