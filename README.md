@@ -20,8 +20,9 @@ Search new dataset:
 
 Obtain Google Maps   credentials at https://developers.google.com/maps/documentation/javascript/get-api-key
 Obtain Google Places credentials at https://developers.google.com/places/web-service/get-api-key
-Here you have some examples in the dataset
 ```
+
+Here you have some examples in the dataset
 
 ```python
 from skimage.io import imread
