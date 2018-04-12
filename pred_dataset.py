@@ -4,14 +4,15 @@ import sys
 if len(sys.argv)==2:
   if sys.argv[1]=='-h':
     print('Usage:')
-    print('   ' + sys.argv[0] + ' <path_to_scene> <output_file>')
+    print('   ' + sys.argv[0] + ' <path_to_scene> <path_to_model> <output_file>')
   else:
     print('Unexpected number of arguments')
     print('Help: ' + sys.argv[0] + ' -h')
   exit()
-elif len(sys.argv)==3:
+elif len(sys.argv)==4:
     data_path = sys.argv[1]
-    output_file = sys.argv[2]
+    output_file = sys.argv[3]
+    model_path = sys.argv[2]
 else:
   print('Unexpected number of arguments.')
   print('Help: ' + sys.argv[0] + ' -h')
@@ -43,7 +44,6 @@ from load_examples import load_data_test
 
 ## build cnn model
 model,input_shape = weak_model()
-model.summary()
 
 from sklearn.model_selection import train_test_split
 
@@ -51,11 +51,11 @@ model, input_shape = weak_model()
 model.summary()
 X,Y,F = load_data_test(data_path,input_shape)
 print(str(X.shape[0])+' images found')
-fweights = './weights_weak.hdf5'
+fweights = model_path#'./weights_weak.hdf5'
 with tf.device('/device:GPU:0'):
 	model.compile(loss=binary_crossentropy,optimizer=Adam(lr=0.0001),metrics=['accuracy'])
 	model.load_weights(fweights)
-	predw =model.predict(X)
+	predw =model.predict(X,verbose=True)
 predw=np.squeeze(predw)
 
 model, input_shape = strong_model()
@@ -66,7 +66,7 @@ fweights = './weights_strong.hdf5'
 with tf.device('/device:GPU:0'):
 	model.compile(loss=binary_crossentropy,optimizer=Adam(lr=0.0001),metrics=['accuracy'])
 	model.load_weights(fweights)
-	preds =model.predict(X)
+	preds =model.predict(X,verbose=True)
 preds=np.squeeze(preds)
 
 

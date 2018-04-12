@@ -1,5 +1,5 @@
 #!env/bin/python3
-
+import pandas as pd
 import urllib.request
 import json
 import sys
@@ -60,13 +60,15 @@ print('Total of ' + str(len(v2)*len(v1)*0.2 ) + ' Mb will be downloaded. Continu
 if input()=='n':
      exit()
 print('downloading...')
-
+df = pd.DataFrame(columns=['file_name','latitude','longitude'])
 for t1,lat in zip(range(len(v1)),v1):
     progress_bar(t1, len(v1), barLength=20) 
     for t2,lon in zip(range(len(v2)),v2):
         fname = scene_name + '/tile_'+str(t1)+'_'+str(t2)+'.png'
-        download_image((lat,lon),zoom,imsize,scale,fname,APIkey)
-
-
-
-
+        df.loc[len(df)]=['tile_'+str(t1)+'_'+str(t2)+'.png',lat,lon]
+	#if os.path.isfile(fname):
+        #    continue
+	#df = df.append({'file_name': 'tile_'+str(t1)+'_'+str(t2)+'.png','latitude':lat,'longitude':lon}, ignore_index=True)
+	#download_image((lat,lon),zoom,imsize,scale,fname,APIkey)
+df.info()
+df.to_csv(scene_name+'/geodata.csv',index=False)

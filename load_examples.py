@@ -14,9 +14,9 @@ def load_data(data_path,negative_class_name,input_shape):
 	X = []
 	F = []
 	train_files = os.listdir(data_path + '/' + negative_class_name + '/')
-	if len(train_files)>50000:
+	if len(train_files)>10000:
 		rnd.shuffle(train_files)
-		train_files = train_files[:50000]
+		train_files = train_files[:10000]
 	for i,fname in zip(range(len(train_files)),train_files):
 		im = imread(data_path+'/'+negative_class_name + '/'+fname)
 		im = resize(im,(input_shape[0],input_shape[1],3),mode='reflect')
@@ -52,8 +52,10 @@ def load_data_test(data_path,input_shape):
 	X = []
 	F = []
 	train_files = os.listdir(data_path)# + '/' + negative_class_name + '/')
+	if data_path[-1]=='/':
+		data_path = data_path[:-1]
 	for i,fname in zip(range(len(train_files)),train_files):
-		im = imread(data_path+'/'+negative_class_name + '/'+fname)
+		im = imread(data_path+'/'+fname)
 		im = resize(im,(input_shape[0],input_shape[1],3),mode='reflect')
 		X.append(np.squeeze(np.mean(im,axis=-1)))
 		L.append(0)

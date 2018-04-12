@@ -4,17 +4,11 @@ import sys
 if len(sys.argv)==2:
   if sys.argv[1]=='-h':
     print('Usage:')
-    print('   ' + sys.argv[0] + ' <model> <path_to_data>')
-    print('     ' + '<model>:')
-    print('       scene: train againts the whole scene to get a weak classifier')
-    print('       hard:  train againts hard cases to get a strong classifier')
+    print('   ' + sys.argv[0] + ' <path_to_data>')
+    exit()
   else:
-    print('Unexpected number of arguments')
-    print('Help: ' + sys.argv[0] + ' -h')
-  exit()
-elif len(sys.argv)==3:
-    model_type = sys.argv[1]
-    data_path = sys.argv[2]
+    model_type = 'hard'
+    data_path = sys.argv[1]
 else:
   print('Unexpected number of arguments.')
   print('Help: ' + sys.argv[0] + ' -h')
