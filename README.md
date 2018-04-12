@@ -8,6 +8,8 @@ Steps 1 and 2 describe how to train your own tennis-cout detector model from exa
 First, we need to build a labeled dataset of images of the 'tennis court' and the 'no tennis court' classes. For that, we use Google's 'Places' API to find geolocations of tennis courts and other objects and the 'Maps' API to download a their corresponding images.
 
 To download the dataset, use the next program:
+
+```
 $ python3 build_labeled_dataset.py -h
 Usage:
 Reuse dataset:
@@ -19,7 +21,7 @@ Search new dataset:
 Obtain Google Maps   credentials at https://developers.google.com/maps/documentation/javascript/get-api-key
 Obtain Google Places credentials at https://developers.google.com/places/web-service/get-api-key
 Here you have some examples in the dataset
-
+```
 
 ```python
 from skimage.io import imread
@@ -41,26 +43,46 @@ plt.show()
 
 ## Step 2: Train a classifier
 Second, train a classifier with the downloaded dataset of images. I designed a Convolutional Nerual Netowrk (CNN) with 4 convolutional and 2 fully connected layers, which can be trained using:
+
+```
 $ python3 train_tennis_model.py -h
 Usage:
    train_tennis_model.py <path_to_data>
+```
+
 ## Step 3: Download a big scene
 You can download all the tiles (256x256 pixel each) corresponding to a scene from Google's Maps. The tiles have a 50% overlap to ensure all objects are completely included in at least one imgage.
+
+```
 $ python3 download_scene.py -h
 Usage:
    download_scene.py <minimum_latitude> <minimum_longitude> <maximum_latitude> <maximum_longitude> <scene_name> <google_maps_API_key>
+```
+
 Here you have an example of how to download the tiles corresponding to the city of San Francisco:
+
+```
 $ python3 ./download_scene.py 37.746801 -122.517113 37.810798 -122.398028 sanfrancisco <google_maps_API_key>
+```
+
 ## Step 4: Test the model with the scene's tiles
 Once, you have a scene downloaded, you can apply the model to each tile in the scene by using:
+
+```
 $ python3 pred_dataset.py -h
 Usage:
    pred_dataset.py <path_to_scene> <path_to_model> <output_file>
+```
+
 To use the pretained model, use the following file:
+
+```
 weights_strong.hdf5
 
 Example:
 python3 pred_dataset sanfrancisco weights_strong.hdf5 results.csv
+```
+
 ## Step 5: Display the results
 Finally, here you have an example of how to display the results obtained in an interactive heatmap showing the scores of the detector. To do so, use the geographical locations of the tiles, which were saved in the 'geodata.csv' file produced by 'download_scene.py'
 
@@ -75,7 +97,7 @@ Use your own key here:
 
 
 ```python
-gmap_key = 'AIzaSyDKhxOjZnt6At4VowHj9bs3DA3Zjzwt3mY'
+gmap_key = 'YOUR_KEY'
 ```
 
 
@@ -113,9 +135,9 @@ You can find the interactive map in the following link:
 from ipywidgets.embed import embed_minimal_html
 embed_minimal_html('SFtennis.html', views=[fig], title='San Francisco tennis courts')
 from IPython.core.display import HTML
-display(HTML('<a href="SFtennis.html">San Francisco tennis courts</a>'))
+display(HTML('<a href="https://cdn.rawgit.com/ohcaude/tennis/75a2f8ed/SFtennis.html">San Francisco tennis courts</a>'))
 ```
 
 
-<a href="SFtennis.html">San Francisco tennis courts</a>
+<a href="https://cdn.rawgit.com/ohcaude/tennis/75a2f8ed/SFtennis.html">San Francisco tennis courts</a>
 
