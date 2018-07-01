@@ -136,7 +136,7 @@ You can find the interactive map in the following link:
 from ipywidgets.embed import embed_minimal_html
 embed_minimal_html('SFtennis.html', views=[fig], title='San Francisco tennis courts')
 from IPython.core.display import HTML
-display(HTML('<a href="https://cdn.rawgit.com/ohcaude/tennis/75a2f8ed/SFtennis.html">San Francisco tennis courts</a>'))
+display(HTML('<a href="https://cdn.rawgit.com/ohcaude/tennis/9c8c586e/sanfrancisco_big.html">San Francisco tennis courts</a>'))
 ```
 
 
