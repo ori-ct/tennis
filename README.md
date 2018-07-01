@@ -140,5 +140,5 @@ display(HTML('<a href="https://cdn.rawgit.com/ohcaude/tennis/9c8c586e/sanfrancis
 ```
 
 
-<a href="https://cdn.rawgit.com/ohcaude/tennis/75a2f8ed/SFtennis.html">San Francisco tennis courts</a>
+<a href="https://cdn.rawgit.com/ohcaude/tennis/9c8c586e/sanfrancisco_big.html">San Francisco tennis courts</a>
 
